@@ -1,0 +1,10 @@
+grid
+obj
+*.obj
+*.txt
+*.asv
+*.mat
+*.grid
+*.rar
+*.zip
+toolbox_graph
