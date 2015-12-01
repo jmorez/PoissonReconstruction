@@ -22,3 +22,38 @@ function sketchCurveFromPoints()
     end
     hold off
 end
+% function sketchCurveFromPoints()
+%     close all;
+%     h=figure(); title('Draw something...'); axis square; 
+%     %Arrays that store points
+%     xn=[]; yn=[];
+%     %Arrays that store the curve
+%     xc=[]; yc=[];
+% 
+%     line_points=line;
+%     line_curve=line;
+%     set(line_points,'Parent',gca);
+%     set(line_curve,'Parent',gca);
+%     
+%     %Main loop should purely update the 
+%     n=1;
+%     while true
+%         %Get the coordinates of each mouseclick
+%         [x,y] = ginput(1);
+%         %Add them to the rest
+%         xn=[xn x];
+%         yn=[yn y];
+%         
+%         %With 3 points we can begin making the curve
+%         if n > 2
+%             pp=csape(1:length(xn),[xn ;yn],'periodic');
+%             curve=fnplt(pp); xc=curve(1,:); yc=curve(2,:);            
+%         end
+%         
+%         refreshdata;
+%         drawnow;
+% 
+%         n=n+1;
+%     end
+%     %hold off
+% end

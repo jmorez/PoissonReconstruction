@@ -7,4 +7,6 @@ obj
 *.grid
 *.rar
 *.zip
+*.mtl
+*.pdf
 toolbox_graph
