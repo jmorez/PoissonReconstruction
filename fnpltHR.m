@@ -1,6 +1,6 @@
-function [points,t] = fnplt2(f,varargin)
+function [points,t] = fnpltHR(f,varargin)
 %NOTE: modified so it uses more points if there are more breaks (why on
-%earth wasn't this implemented in the first place???)
+%earth wasn't this implemented in the first place???) (see line 146)
 
 %FNPLT Plot a function.
 %
@@ -143,7 +143,7 @@ switch f.form(1:2)
                 end
             end
         else     % we are dealing with a univariate spline
-            npoints = 32*length(f.breaks);
+            npoints = 64*length(f.breaks)+1; %This has been changed 
             x = [breaks(2:l) linspace(breaks(1),breaks(l+1),npoints)];
             v = ppual(f,x);
             if l>1 % make sure of proper treatment at jumps if so required

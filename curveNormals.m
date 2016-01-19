@@ -1,10 +1,17 @@
 function [Nx,Ny,idx]=curveNormals(x,y,stride)
 %http://mathworld.wolfram.com/NormalVector.html <- This seems to work badly
 %for some reason, so we'll use angles.
-    idx=2:stride:(length(x)-1);
+    n=length(x);
+    idx=2:stride:n;
+    
+    %Concatenate the last element to the beginning and vice versa so we can
+    %calculate the normals in points 1 and n
+    x=[x(n); reshape(x,n,1); x(1)];
+    y=[y(n); reshape(y,n,1); y(1)];
     dx=(x(idx+1)-x(idx-1));
     dy=(y(idx+1)-y(idx-1));
     theta=atan2(dy,dx);
-    Nx=sin(theta);%-dx./sqrt(dx.^2+dy.^2);
-    Ny=-cos(theta);%dy./sqrt(dx.^2+dy.^2);
+    Nx=sin(theta); 
+    Ny=-cos(theta); 
+    idx=1:stride:n;
 end
