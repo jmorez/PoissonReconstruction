@@ -2,7 +2,6 @@ load example
 %TODO: update example to have [Nx  Ny] naturally parametrized
 close all
 
-%If we sub
 idx=naturalParam(x,y,200);
 [Dx,Dy,xx,yy]=discretizeVectorField([x(idx) y(idx)],[Nx(idx) Ny(idx)],75);
 quiver(xx,yy,Dx,Dy);

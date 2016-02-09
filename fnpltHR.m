@@ -143,7 +143,7 @@ switch f.form(1:2)
                 end
             end
         else     % we are dealing with a univariate spline
-            npoints = 64*length(f.breaks)+1; %This has been changed 
+            npoints = 16*length(f.breaks)+1; %This has been changed 
             x = [breaks(2:l) linspace(breaks(1),breaks(l+1),npoints)];
             v = ppual(f,x);
             if l>1 % make sure of proper treatment at jumps if so required

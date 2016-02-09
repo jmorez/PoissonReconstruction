@@ -1,11 +1,15 @@
-function [Dx,Dy,xx,yy]=discretizeVectorField(V,N,m)
+function [Dx,Dy,xx,yy]=discretizeVectorField(V,N,m,varargin)
     %Returns two 2D-matrices with x & y components of the
     %discretized vector field. 
     n=length(N);
     %Set up grid
-    xrange=[min(V(:,1)) max(V(:,1))];
-    yrange=[min(V(:,2)) max(V(:,2))];
-    
+    if ~isempty(varargin)
+        xrange=varargin{1};
+        yrange=varargin{2};
+    else
+        xrange=[min(V(:,1)) max(V(:,1))];
+        yrange=[min(V(:,2)) max(V(:,2))];
+    end
     %Note: non-uniform at the moment, will depend on the extent of the
     %vertices in x- and y-direction.
     hx=(xrange(2)-xrange(1))/m;

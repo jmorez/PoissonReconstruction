@@ -1,7 +1,8 @@
 function [x,y,Nx,Ny,idx]=sketchCurveFromPoints(max_points)
     %Set up the window and create the necessary variables
     close all;
-    figure(); title('Draw something...'); axis image; xlim([0 10]); ylim([0 10]);
+    figure();  axis image; xlim([0 10]); ylim([0 10]);
+    %title('Draw something...');
     hold on
     
     %Control point arrays
@@ -31,32 +32,35 @@ function [x,y,Nx,Ny,idx]=sketchCurveFromPoints(max_points)
         
         %Create the line object in the first iteration
         if n==0
-            dots=line(xn,yn,'Marker','o','LineStyle','none');
+            dots=line(xn,yn,'Marker','o','LineStyle','none','Color','k');
         else
             %Update data otherwise
             set(dots,'XData',xn,'YData',yn);
         end
         
-        %With at least 3 points we can start generating splines. 
+        %With at least 3 points we can start generating splines. This
+        %if-construct can probably be formulated more elegantly. 
         if length(xn)== 3 && length(yn) == 3
-            pp=csape(1:length(xn),[xn ;yn]);                         %Generate spline coefficients
-            points=fnpltHR(pp);
-            points=points(:,1:end);
-            %Get the actual plot points
-            curve=line(points(1,:),points(2,:),'Marker','.','LineStyle','none');%Create the line object that we'll update each iteration.
+            pp=csape(1:length(xn),[xn ;yn]);                        
+            points=fnpltHR(pp); %Fetch the actual points
+            %Create the line object that we'll update with each iteration.
+            curve=line(points(1,:),points(2,:),'Marker','.','LineStyle','none','Color','k');
         elseif length(xn)> 3 && length(yn) > 3 && n < max_points-1
+            %We now just update the control points and recalculate the
+            %spline and update the curve.
             pp=csape(1:length(xn),[xn ;yn]);
             points=fnpltHR(pp);
-            points=points(:,1:end);
             set(curve,'XData',points(1,1:end),'YData',points(2,1:end));
         elseif n==max_points-1
+            %In the end we want periodic conditions as it is a closed
+            %curve.
             pp=csape(1:length(xn),[xn ;yn],'periodic');
             points=fnpltHR(pp);
-            points=points(:,1:end);
             set(curve,'XData',points(1,1:end),'YData',points(2,1:end)); 
         end     
         drawnow; 
         
+        %End the loop if the max amount of control points is reached.
         if n==max_points-1
             break
         end
@@ -64,8 +68,8 @@ function [x,y,Nx,Ny,idx]=sketchCurveFromPoints(max_points)
     end
     
     %Something very mysterious happens during the interpolation. Around
-    %knot-points, we get duplicate (x,y) pairs. This seems to be an
-    %artifact of the csape function, or simply because of my own incorrect use. 
+    %control points, we get duplicate (x,y) pairs. This seems to be an
+    %artifact of the csape/fnpltHR function, or simply because of my own incorrect use. 
     %I will simply remove the duplicates by looking at their value.
     x=points(1,1:end)';
     y=points(2,1:end)';    
@@ -77,7 +81,7 @@ function [x,y,Nx,Ny,idx]=sketchCurveFromPoints(max_points)
     
     
     [Nx,Ny,idx]=curveNormals(x,y,1);
-    quiver(x(2:end),y(2:end),Nx,Ny);
+    quiver(x(2:end),y(2:end),Nx,Ny,'Color','k');
     
     x=x(2:end);
     y=y(2:end);
